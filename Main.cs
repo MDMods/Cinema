@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Database;
+﻿using System;
+using Assets.Scripts.Database;
 using Assets.Scripts.PeroTools.Commons;
 using CustomAlbums;
 using FormulaBase;
@@ -6,9 +7,10 @@ using HarmonyLib;
 using MelonLoader;
 using System.IO;
 using System.Linq;
-using UnhollowerRuntimeLib;
+using GameLogic;
 using UnityEngine;
 using UnityEngine.Video;
+using Object = UnityEngine.Object;
 
 namespace Cinema
 {
@@ -17,6 +19,7 @@ namespace Cinema
         public static bool GameStarted = false;
         public static VideoPlayer Player;
         public static CinemaInfo CinInfo;
+        public static bool Christmas;
 
         public static void InitCamera()
         {
@@ -27,7 +30,7 @@ namespace Cinema
             if (currentAlbum == null) return;
 
             CinInfo = new CinemaInfo(currentAlbum);
-            if (CinInfo.jsonData == null) return;
+            if (CinInfo.jsonData == null || !CinInfo.CinemaEnabled) return;
 
             byte[] videoBytes = currentAlbum.IsPackaged ? CinInfo.GetArchiveVideoBytes() : File.ReadAllBytes(CinInfo.FilePath);
             File.WriteAllBytes(Application.persistentDataPath + "/cinema.mp4", videoBytes);
@@ -67,7 +70,9 @@ namespace Cinema
 
             SingletonMonoBehaviour<GameSceneContainer>.instance.sprLightness.color = new Color(0, 0, 0, 0);
 
-            HideAll(currentAlbum.Info.scene);
+            // Support for Miku scene and Christmas scene
+            var sceneNumber = currentAlbum.Info.scene.Split('_')[1];
+            HideAll($"scene_{sceneNumber}{(!Christmas ? string.Empty : "_christmas")}");
         }
 
         public static void HideAll(string sceneName)
@@ -94,6 +99,17 @@ namespace Cinema
         }
     }
 
+    [HarmonyPatch(typeof(GameMusicScene), nameof(GameMusicScene.SceneFestival))]
+    internal static class SceneFestival_Patch
+    {
+        [HarmonyFinalizer]
+        private static void Finalizer(string __result)
+        {
+            // Checks if Christmas scene
+            Main.Christmas = __result.EndsWith("christmas");
+        }
+    }
+
     [HarmonyPatch(typeof(SceneChangeController), "OnControllerStart")]
     internal static class OnControllerStart_Patch
     {
@@ -101,14 +117,24 @@ namespace Cinema
         private static void Prefix()
         {
             if (Main.Player == null) return;
-            Main.HideAll($"scene_0{SceneChangeController.curScene}");
+
+            // Support for Miku scene and Christmas scene
+            var sceneSuffix = SceneChangeController.curScene.ToString().Length == 1
+                ? $"0{SceneChangeController.curScene}"
+                : SceneChangeController.curScene.ToString();
+            Main.HideAll($"scene_{sceneSuffix}{(!Main.Christmas ? string.Empty : "_christmas")}");
         }
 
         [HarmonyPostfix]
         private static void Postfix()
         {
             if (Main.Player == null) return;
-            Main.HideAll($"scene_0{SceneChangeController.curScene}");
+
+            // Support for Miku scene and Christmas scene
+            var sceneSuffix = SceneChangeController.curScene.ToString().Length == 1
+                ? $"0{SceneChangeController.curScene}"
+                : SceneChangeController.curScene.ToString();
+            Main.HideAll($"scene_{sceneSuffix}{(!Main.Christmas ? string.Empty : "_christmas")}");
         }
     }
 

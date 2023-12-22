@@ -1,7 +1,12 @@
 ﻿using CustomAlbums;
 using Ionic.Zip;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Assets.Scripts.Database;
+using MelonLoader;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace Cinema
 {
@@ -12,10 +17,10 @@ namespace Cinema
 
         private string _fileName = null;
         private float _opacity;
-
+        private List<int> _activateDifficulties = new List<int> { 1, 2, 3, 4, 5 };
         public string FilePath
         {
-            get { return _fileName == null ? null : $"{album.BasePath}/{_fileName}".Replace('\\', '/'); }
+            get {  return _fileName == null ? null : $"{album.BasePath}/{_fileName}".Replace('\\', '/'); }
         }
 
         public float Opacity
@@ -25,7 +30,10 @@ namespace Cinema
 
         public bool CinemaEnabled
         {
-            get { return _fileName != null; }
+            get
+            {
+                return _fileName != null && _activateDifficulties.Contains(GlobalDataBase.s_DbBattleStage.selectedDifficulty);
+            }
         }
 
         public CinemaInfo(Album customAlbum)
@@ -37,6 +45,8 @@ namespace Cinema
 
             _fileName = jsonData["file_name"].ToString();
             _opacity = float.Parse(jsonData["opacity"].ToString());
+            if (!jsonData.TryGetValue("difficulties", out var list)) return;
+            _activateDifficulties = list.Values<int>().ToList();
         }
 
         public static JObject LoadFromArchive(string filePath)
