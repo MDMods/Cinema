@@ -72,7 +72,7 @@ namespace Cinema
 
             // Support for Miku scene and Christmas scene
             var sceneNumber = currentAlbum.Info.scene.Split('_')[1];
-            HideAll($"scene_{sceneNumber}{(!Christmas ? string.Empty : "_christmas")}");
+            HideAll($"scene_{sceneNumber}{(Christmas && sceneNumber == "05" ? "_christmas" : string.Empty)}");
         }
 
         public static void HideAll(string sceneName)
@@ -122,7 +122,7 @@ namespace Cinema
             var sceneSuffix = SceneChangeController.curScene.ToString().Length == 1
                 ? $"0{SceneChangeController.curScene}"
                 : SceneChangeController.curScene.ToString();
-            Main.HideAll($"scene_{sceneSuffix}{(!Main.Christmas ? string.Empty : "_christmas")}");
+            Main.HideAll($"scene_{sceneSuffix}{(Main.Christmas && sceneSuffix == "05" ? "_christmas" : string.Empty)}");
         }
 
         [HarmonyPostfix]
@@ -134,7 +134,7 @@ namespace Cinema
             var sceneSuffix = SceneChangeController.curScene.ToString().Length == 1
                 ? $"0{SceneChangeController.curScene}"
                 : SceneChangeController.curScene.ToString();
-            Main.HideAll($"scene_{sceneSuffix}{(!Main.Christmas ? string.Empty : "_christmas")}");
+            Main.HideAll($"scene_{sceneSuffix}{(Main.Christmas && sceneSuffix == "05" ? "_christmas" : string.Empty)}");
         }
     }
 
