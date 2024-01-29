@@ -5,43 +5,45 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <MelonLoader>$(MD_DIRECTORY)\MelonLoader\net6</MelonLoader>
+    <Il2CppAssemblies>$(MD_DIRECTORY)\MelonLoader\Il2CppAssemblies</Il2CppAssemblies>
   </PropertyGroup>
 
   <Target Name="CopyDLLs" AfterTargets="Build">
-    <Copy SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="C:\Users\Ashton\Desktop\MDNET6\MuseDashNET6\Mods" />
-    <Message Text="Copied DLL -&gt; C:\Users\Ashton\Desktop\MDNET6\MuseDashNET6\Mods\$(ProjectName).dll" Importance="High" />
+    <Copy SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="$(MD_DIRECTORY)\Mods" />
+    <Message Text="Copied DLL -&gt; $(MD_DIRECTORY)\Mods\$(ProjectName).dll" Importance="High" />
   </Target>
 
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>C:\Users\Ashton\Desktop\MDNET6\MuseDashNET6\MelonLoader\net6\0Harmony.dll</HintPath>
+      <HintPath>$(MelonLoader)\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>C:\Users\Ashton\Desktop\MDNET6\MuseDashNET6\MelonLoader\Il2CppAssemblies\Assembly-CSharp.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="CustomAlbums">
-      <HintPath>C:\Users\Ashton\Desktop\MDNET6\MuseDashNET6\Mods\CustomAlbums.dll</HintPath>
+      <HintPath>$(MD_DIRECTORY)\Mods\CustomAlbums.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppInterop.Generator">
-      <HintPath>C:\Users\Ashton\Desktop\MDNET6\MuseDashNET6\MelonLoader\net6\Il2CppInterop.Generator.dll</HintPath>
+      <HintPath>$(MelonLoader)\Il2CppInterop.Generator.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppInterop.Runtime">
-      <HintPath>C:\Users\Ashton\Desktop\MDNET6\MuseDashNET6\MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
+      <HintPath>$(MelonLoader)\Il2CppInterop.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Il2Cppmscorlib">
-      <HintPath>C:\Users\Ashton\Desktop\MDNET6\MuseDashNET6\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\Il2Cppmscorlib.dll</HintPath>
     </Reference>
     <Reference Include="Il2CppSystem">
-      <HintPath>C:\Users\Ashton\Desktop\MDNET6\MuseDashNET6\MelonLoader\Il2CppAssemblies\Il2CppSystem.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\Il2CppSystem.dll</HintPath>
     </Reference>
     <Reference Include="MelonLoader">
-      <HintPath>C:\Users\Ashton\Desktop\MDNET6\MuseDashNET6\MelonLoader\net6\MelonLoader.dll</HintPath>
+      <HintPath>$(MelonLoader)\MelonLoader.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>C:\Users\Ashton\Desktop\MDNET6\MuseDashNET6\MelonLoader\Il2CppAssemblies\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VideoModule">
-      <HintPath>C:\Users\Ashton\Desktop\MDNET6\MuseDashNET6\MelonLoader\Il2CppAssemblies\UnityEngine.VideoModule.dll</HintPath>
+      <HintPath>$(Il2CppAssemblies)\UnityEngine.VideoModule.dll</HintPath>
     </Reference>
   </ItemGroup>
 
