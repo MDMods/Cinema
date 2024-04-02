@@ -12,6 +12,7 @@ namespace Cinema.Patches
 
             Main.GameStarted = true;
             Main.Player.Play();
+            DriftCorrector.Run();
         }
     }
 }

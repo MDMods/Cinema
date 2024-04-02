@@ -11,6 +11,7 @@ namespace Cinema.Patches
             if (Main.Player == null) return;
 
             Main.GameStarted = false;
+            DriftCorrector.Stop();
         }
     }
 }

@@ -46,6 +46,7 @@ namespace Cinema
             CurrentSpeed = SpeedState.Normal;
 #if DEBUG
             MelonLogger.Msg("Enabled drift detection");
+            MelonLogger.Msg("Original speed: " + OriginalPlaybackSpeed);
 #endif
             MelonEvents.OnLateUpdate.Subscribe(LateUpdate);
         }
@@ -53,7 +54,7 @@ namespace Cinema
         static int DeltaSampleIndex;
         // higher == more precise, but may have lower performance
         static readonly float CorrectionPrecision = 1f;
-        static readonly int ForceSetThreshold = 10;
+        static readonly int ForceSetThreshold = 20;
         static readonly float DisableCoefficient = 1.1f;
         static SpeedState CurrentSpeed = SpeedState.Normal;
         static void CalculateAverageDelta()
@@ -108,7 +109,10 @@ namespace Cinema
                 // instead of slightly speeding up, like when we correct small drifts.
                 // This correction may cause a few Update loops worth of drift,
                 // but is preferrable to a multiple second drift.
-                Main.Player.time = BattleComponent.timeFromMusicStart;
+#if DEBUG
+                MelonLogger.Msg($"Hard-correcting to {BattleComponent.timeFromMusicStart}");
+#endif
+                Main.Player.time = BattleComponent.timeFromMusicStart+(averageDelta * (ForceSetThreshold-1));
                 return;
             }
             var maxDifference = averageDelta / CorrectionPrecision;

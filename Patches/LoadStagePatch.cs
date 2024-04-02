@@ -33,7 +33,6 @@ namespace Cinema.Patches
 
             Main.InitCamera(cinemaInfo.Opacity);
             Main.HideSceneElements();
-            DriftCorrector.Run();
         }
     }
 }
