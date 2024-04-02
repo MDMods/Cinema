@@ -42,6 +42,7 @@ namespace Cinema
         internal static void Run()
         {
             OriginalPlaybackSpeed = Main.Player.playbackSpeed;
+            LastUpdateTime = 0;
             BattleComponent = StageBattleComponent.instance;
             CurrentSpeed = SpeedState.Normal;
 #if DEBUG
@@ -93,9 +94,10 @@ namespace Cinema
         /// we store the original playback speed and use it in our calculations.
         /// </summary>
         static float OriginalPlaybackSpeed = 1f;
+        static double LastUpdateTime = 0;
         static void LateUpdate()
         {
-            if (Main.Player is null)
+            if (Main.Player is null || Main.Player.time == LastUpdateTime)
             {
                 return;
             }
@@ -105,16 +107,17 @@ namespace Cinema
                 return;
             }
             CalculateAverageDelta();
+            LastUpdateTime = Main.Player.time;
 
             var averageDelta = DeltaSamples.Average();
-            var drift = (float)(Main.Player.time - BattleComponent.timeFromMusicStart);
+            var drift = (float)(LastUpdateTime - BattleComponent.timeFromMusicStart);
             if (Math.Abs(drift) > averageDelta*ForceSetThreshold)
             {
                 // If the game freezes, (e.g. extreme drift) instantly set the player's time,
                 // instead of slightly speeding up, like when we correct small drifts.
                 // This correction may cause a few Update loops worth of drift,
                 // but is preferrable to a multiple second drift.
-                var correct = BattleComponent.timeFromMusicStart + (averageDelta * ForceSetThreshold / 2);
+                var correct = BattleComponent.timeFromMusicStart + (averageDelta * ForceSetThreshold);
 #if DEBUG
                 MelonLogger.Msg($"Hard-correcting time ({Main.Player.time}) to {BattleComponent.timeFromMusicStart} ({correct})");
 #endif
