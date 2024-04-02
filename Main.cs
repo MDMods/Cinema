@@ -13,9 +13,14 @@ namespace Cinema
         internal static VideoPlayer Player;
         internal static bool Christmas;
 
+        public override void OnSceneWasLoaded(int buildIndex, string sceneName)
+        {
+            DriftCorrector.Stop();
+        }
+
         public override void OnInitializeMelon()
         {
-            base.OnInitializeMelon();
+            DriftCorrector.Init();
 
             // Clean up old file from v1.1.x and below
             if (File.Exists(Application.persistentDataPath + "/cinema.mp4"))
@@ -56,6 +61,8 @@ namespace Cinema
             Player.audioOutputMode = VideoAudioOutputMode.None;
             Player.aspectRatio = VideoAspectRatio.FitOutside;
             Player.url = Application.dataPath + "/cinema.mp4";
+            Player.skipOnDrop = true;
+            Player.Prepare();
         }
 
         internal static void HideSceneElements()
