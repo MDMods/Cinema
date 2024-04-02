@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Cinema
 {
-    class DriftCorrector
+    static class DriftCorrector
     {
         enum SpeedState
         {
@@ -13,9 +13,13 @@ namespace Cinema
             Fast
         }
         static StageBattleComponent BattleComponent;
-
+        static bool IsInit = false;
         internal static void Init()
         {
+            if (IsInit)
+            {
+                return;
+            }
             InitAverageDelta();
         }
         internal static void Stop()
