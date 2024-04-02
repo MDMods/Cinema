@@ -114,10 +114,11 @@ namespace Cinema
                 // instead of slightly speeding up, like when we correct small drifts.
                 // This correction may cause a few Update loops worth of drift,
                 // but is preferrable to a multiple second drift.
+                var correct = BattleComponent.timeFromMusicStart + (averageDelta * ForceSetThreshold / 2);
 #if DEBUG
-                MelonLogger.Msg($"Hard-correcting to {BattleComponent.timeFromMusicStart}");
+                MelonLogger.Msg($"Hard-correcting time ({Main.Player.time}) to {BattleComponent.timeFromMusicStart} ({correct})");
 #endif
-                Main.Player.time = BattleComponent.timeFromMusicStart+(averageDelta * (ForceSetThreshold-1));
+                Main.Player.time = correct;
                 return;
             }
             var maxDifference = averageDelta / CorrectionPrecision;
