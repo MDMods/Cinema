@@ -21,6 +21,7 @@ namespace Cinema
                 return;
             }
             InitAverageDelta();
+            IsInit = true;
         }
         internal static void Stop()
         {
