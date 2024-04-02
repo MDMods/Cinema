@@ -49,7 +49,7 @@ namespace Cinema
 #endif
             MelonEvents.OnLateUpdate.Subscribe(LateUpdate);
         }
-        static float[] DeltaSamples = new float[50];
+        static readonly float[] DeltaSamples = new float[50];
         static int DeltaSampleIndex;
         // higher == more precise, but may have lower performance
         static readonly float CorrectionPrecision = 1f;
