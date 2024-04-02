@@ -99,6 +99,11 @@ namespace Cinema
             {
                 return;
             }
+            if (Main.Player.time >= Main.Player.length)
+            {
+                Stop();
+                return;
+            }
             CalculateAverageDelta();
 
             var averageDelta = DeltaSamples.Average();
