@@ -24,7 +24,7 @@ Cinema is a mod for Muse Dash that adds background video support to custom chart
 ```
 ## Changelog
 ### v1.2.1
-- Implemented drift correction ([#3](https://github.com/MDMods/Cinema/pull/1))
+- Implemented drift correction ([#3](https://github.com/MDMods/Cinema/pull/3))
 ### v1.2.0
 - Refactored for .NET 6.0
 - Faster loading times when restarting a cinema-enabled chart
