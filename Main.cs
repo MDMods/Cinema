@@ -20,6 +20,7 @@ namespace Cinema
 
         public override void OnInitializeMelon()
         {
+            base.OnInitializeMelon();
             DriftCorrector.Init();
 
             // Clean up old file from v1.1.x and below
@@ -71,8 +72,6 @@ namespace Cinema
                 ? $"scene_{SceneChangeController.curScene}"
                 : $"scene_0{SceneChangeController.curScene}";
             if (Christmas && sceneName == "scene_05") sceneName += "_christmas";
-
-            MelonLogger.Msg("SCENE TO HIDE: " + sceneName);
 
             var sceneObject = GameObject.Find("SceneObjectController").transform.Find(sceneName);
             if (sceneObject == null) return;
