@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using MelonLoader;
 
-[assembly: MelonInfo(typeof(Cinema.Main), "Cinema", "1.2.0", "AshtonMemer")]
+[assembly: MelonInfo(typeof(Cinema.Main), "Cinema", "1.2.1", "AshtonMemer")]
 [assembly: MelonGame("PeroPeroGames", "MuseDash")]
 
 // General Information about an assembly is controlled through the following
@@ -35,5 +35,5 @@ using MelonLoader;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.2.0.0")]
-[assembly: AssemblyFileVersion("1.2.0.0")]
+[assembly: AssemblyVersion("1.2.1.0")]
+[assembly: AssemblyFileVersion("1.2.1.0")]
