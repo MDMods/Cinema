@@ -7,6 +7,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <MelonLoader>$(MD_DIRECTORY)\MelonLoader\net6</MelonLoader>
     <Il2CppAssemblies>$(MD_DIRECTORY)\MelonLoader\Il2CppAssemblies</Il2CppAssemblies>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <Target Name="CopyDLLs" AfterTargets="Build">
