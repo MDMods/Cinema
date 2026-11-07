@@ -1,6 +1,7 @@
 ﻿using System.IO.Compression;
 using System.Text;
 using System.Text.Json.Nodes;
+using CustomAlbums.Albums;
 using CustomAlbums.Data;
 using CustomAlbums.Utilities;
 using Il2CppAssets.Scripts.Database;
@@ -18,13 +19,13 @@ namespace Cinema.Data
         public CinemaInfo(Album album)
         {
             _album = album;
-            var jsonData = album.IsPackaged ? LoadFromArchive(album.Path) : LoadFromFolder(album.Path);
+            var jsonData = album is FolderAlbum ? LoadFromFolder(album.Path) : LoadFromArchive(album.Path);
 
             if (jsonData == null) return;
 
             Opacity = jsonData["opacity"]?.GetValue<float>() ?? 0f;
             _fileName = jsonData["file_name"]?.GetValue<string>() ?? string.Empty;
-            _filePath = _fileName != null && _album != null ? $"{_album.Path}\\{_fileName}" : null;
+            _filePath = _fileName != null && _album != null ? Path.Combine(_album.Path, _fileName) : null;
 
             if (jsonData["difficulties"] == null) return;
 
@@ -40,7 +41,7 @@ namespace Cinema.Data
 
         public byte[] GetVideo()
         {
-            if (!_album.IsPackaged) return File.ReadAllBytes(_filePath);
+            if (_album is FolderAlbum) return File.ReadAllBytes(_filePath);
 
             using var zip = ZipFile.OpenRead(_album.Path);
             var videoFile = zip.GetEntry(_fileName);
@@ -67,9 +68,10 @@ namespace Cinema.Data
 
         public static JsonObject LoadFromFolder(string folderPath)
         {
-            return !File.Exists($"{folderPath}\\cinema.json")
+            var path = Path.Combine(folderPath, "cinema.json");
+            return !File.Exists(path)
                 ? null
-                : Json.Deserialize<JsonObject>(File.ReadAllText($"{folderPath}\\cinema.json"));
+                : Json.Deserialize<JsonObject>(File.ReadAllText(path));
         }
     }
 }
