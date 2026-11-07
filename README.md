@@ -22,17 +22,3 @@ Cinema is a mod for Muse Dash that adds background video support to custom chart
     "difficulties": [3, 4]
 }
 ```
-## Changelog
-### v1.2.1
-- Implemented drift correction ([#3](https://github.com/MDMods/Cinema/pull/3))
-### v1.2.0
-- Refactored for .NET 6.0
-- Faster loading times when restarting a cinema-enabled chart
-- Added system for automatic file cleanup
-- Added support for specifying enabled difficulties ([#1](https://github.com/MDMods/Cinema/pull/1))
-- Added support for Miku and Christmas scene ([#1](https://github.com/MDMods/Cinema/pull/1))
-### v1.1.3
-- Corrected fever background on non-cinema charts
-- Removed funny debug message that I forgot about
-### v1.1.2
-- Added new fever system that avoids covering up the background video
