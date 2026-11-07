@@ -27,7 +27,7 @@ namespace Cinema.Patches
             if (LastMusicUid != musicUid)
             {
                 var videoBytes = cinemaInfo.GetVideo();
-                File.WriteAllBytes(Application.dataPath + "/cinema.mp4", videoBytes);
+                File.WriteAllBytes(Path.Combine(Application.dataPath, "cinema.mp4"), videoBytes);
                 LastMusicUid = musicUid;
             }
 

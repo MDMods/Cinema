@@ -24,19 +24,19 @@ namespace Cinema
             DriftCorrector.Init();
 
             // Clean up old file from v1.1.x and below
-            if (File.Exists(Application.persistentDataPath + "/cinema.mp4"))
-                File.Delete(Application.persistentDataPath + "/cinema.mp4");
+            if (File.Exists(Path.Combine(Application.persistentDataPath, "cinema.mp4")))
+                File.Delete(Path.Combine(Application.persistentDataPath, "cinema.mp4"));
 
-            if (File.Exists(Application.dataPath + "/cinema.mp4"))
-                File.Delete(Application.dataPath + "/cinema.mp4");
+            if (File.Exists(Path.Combine(Application.dataPath, "cinema.mp4")))
+                File.Delete(Path.Combine(Application.dataPath, "cinema.mp4"));
         }
 
         public override void OnDeinitializeMelon()
         {
             base.OnDeinitializeMelon();
 
-            if (File.Exists(Application.dataPath + "/cinema.mp4"))
-                File.Delete(Application.dataPath + "/cinema.mp4");
+            if (File.Exists(Path.Combine(Application.dataPath, "cinema.mp4")))
+                File.Delete(Path.Combine(Application.dataPath, "cinema.mp4"));
         }
 
         internal static void InitCamera(float opacity)
@@ -61,7 +61,7 @@ namespace Cinema
             Player.targetCameraAlpha = opacity;
             Player.audioOutputMode = VideoAudioOutputMode.None;
             Player.aspectRatio = VideoAspectRatio.FitOutside;
-            Player.url = Application.dataPath + "/cinema.mp4";
+            Player.url = Path.Combine(Application.dataPath, "cinema.mp4");
             Player.skipOnDrop = true;
             Player.Prepare();
         }
